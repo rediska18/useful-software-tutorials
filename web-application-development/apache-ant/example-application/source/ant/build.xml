@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- =============== Application Configuration Description ===============
+    Current Apache Ant's configuration named "build.xml" is designed to
+  simplify a build process of a Web-application, which was written with
+  the help of programming languages: Oracle's Java, JSP, HTML, and CSS. It
+  includes enhanced functionality for application's distributive build and
+  it's deployment to the standalone application server provided by the
+  Apache Tomcat.
+    This build configuration requires application's source code to be
+  organised according to the following structure:
+
+      source/ant             Contains static Apache Ant's files required
+                             to prepare application's distributive
+                             (build.xml, environment.properties, and cer-
+                             tificates).
+
+      source/documentation   Contains static application's documentation
+                             files (license, reference, and distributive
+                             preparation instruction), which are necessary
+                             to include into the "documentation" subdirec-
+                             tory of project's distributive.
+
+      source/java            Contains static Oracle's Java source code and
+                             dependent resource files, which could be com-
+                             piled and copied to the the Web-application's
+                             distributive subdirectory named "library".
+
+      source/web-application Contains Web-application's subdirectories
+                             named "META-INF" and "WEB-INF" (includes sta-
+                             tic Web-application's configuration file, co-
+                             de written in HTML, JSP, CSS, and other con-
+                             tent: image files, locale settings).
+
+    The Apache Ant's project describes a set of Ant's targets, which could
+  be requested in order to execute necessary commands. Also current Ant's
+  project contains so called "default" target, which could be executed fr-
+  om the current Ant project's base directory. Usually, it is better to
+  store Ant project's configuration files into the separate directory. -->
+
+<project name="example-application"
+         default="compile-java-source-code"
+         basedir="../..">
+
+<!-- ================= Apache Ant Property's Description =================
+    Ant project's properties could be found and initialised in the fol-
+  lowing ways:
+      1) Property's values provided within the application's build.xml fi-
+         le. They could contain "default" values.
+      2) Property's values provided within the Ant's command arguments:
+         ant -Dfoo=bar compile.
+      3) Property's values provided in a "build.properties" file, which is
+         prepared for each distributive's environment.
+    In other words, Ant project's properties could be overwritten by pro-
+  viding Ant command's arguments or another property files. It is a chal-
+  lenge to create safe and useful structure in order to reduce project
+  build's and distributive's deployment time. -->
+
+<!-- = Common Application's, Ant's, And Web-application server's settings
+    Properties mentioned below, provide information about common appli-
+  cation's, Ant's, and Web-application's server settings. They are conta-
+  ining basic information about applied application names, build paths,
+  credentials.
+      application.name          The Base name of the current application.
+                                It could be included into distributive's
+                                name and application URL.
+
+      application.path          The path could contain information about
+                                root application path and current API ve-
+                                rsion. Please, note that API version, us-
+                                ually, available for test purposes or to
+                                provide separate path for API documen-
+                                tation, which contains valuable infor-
+                                mation for external services (expected
+                                messages, security requirements, etc.).
+                                This information could vary from time to
+                                time. So, independent application audit,
+                                usually, verifies and defines further
+                                steps for improvement.
+
+      application.version       The number which contains information abo-
+                                ut current application version. Usually,
+                                it consist of major and minor version.
+
+      application.build.path    The path, which points to Ant's build dir-
+                                ectory. This directory will include the
+                                result of Ant's build targets.
+
+      catalina.path             The path points to server's Web-applicati-
+                                on directory, where application's binary
+                                distributive installed. And later on could
+                                be deployed.
+
+      catalina.manager.url      The URL of the Web-application server's
+                                administrator ("/manager"), which allows
+                                safe Web-application's distributive de-
+                                ployment.
+
+      catalina.manager.username The Web-application server administrator's
+                                name or the name of a different user, who
+                                has permissions to execute commands and
+                                deploy distributive.
+
+      catalina.manager.password The Web-application server administrator's
+                                password. Could be replaced with personal
+                                certificate. -->
+
+  <property name="application.name" value="${ant.project.name}"/>
+  <property name="application.path" value="/${application.name}"/>
+  <property name="application.version" value="0.1"/>
+  <property name="application.documentation.path"
+            value="${basedir}/source/documentation"/>
+  <property name="application.java-code.path"
+            value="${basedir}/source/java/main/code"/>
+  <property name="application.java-library.path"
+            value="${basedir}/source/java/main/resource/library"/>
+  <property name="application.web-code.path"
+            value="${basedir}/source/web-application"/>
+
+  <property name="application.build.path"
+            value="${basedir}/application-build/target"/>
+
+  <!-- TODO ADD BUILD PROPERTIES!
+      property file="${basedir}/source/
+      /environment/development/build.properties"/ -->
+  <!-- TODO UPDATE PATH!
+      property name="catalina.path" value="../../../../../.."/ -->
+  <!-- TODO UPDATE PATH!
+      property name="catalina.manager.url"
+                           value="http://localhost:8080/manager/text"/ -->
+  <!-- TODO UPDATE USERNAME!
+      property name="catalina.manager.username" value=""/ -->
+  <!-- TODO UPDATE PASSWORD!
+      property name="catalina.manager.password" value=""/ -->
+
+
+<!-- ============== External Application's Java Dependencies =============
+    Apply Ant's property values to define paths to the external files,
+  which are required for the application. In order to achieve this,
+  please, include files either to the classpath during execution of Ant's
+  Java compile target, or you could rely on the CLASSPATH environment va-
+  riable. Do not forget to include those files directly to the directory
+  named "/WEB-INF/library". -->
+
+<!-- Dummy external dependency -->
+<!--
+  <property name="foo.jar"
+           value="/path/to/foo.jar"/>
+-->
+
+
+<!-- ==================== Compilation Classpath ==========================
+
+    Rather than relying on the CLASSPATH environment variable, Ant inclu-
+  des functionality, which makes more comfortable construction of the
+  classpath by including external artifacts dynamically.
+    An example below constructs the compile classpath to include the
+  servlet.jar file, as well as other components directly to the Tomcat
+  server's library. That makes those files also available to other Web-
+  applications automatically. Could be that some additional settings
+  should be added to the Web Application Archive file in order to re-
+  duce dependencies. -->
+
+  <path id="compile.classpath">
+
+    <!-- Include all JAR files that will be included in
+    /WEB-INF/library -->
+    <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
+<!--
+    <pathelement location="${foo.jar}"/>
+-->
+    <pathelement
+location="${application.java-library.path}/javax.servlet-api-4.0.1.jar"/>
+
+    <!-- Include all elements that Tomcat exposes to applications -->
+    <!--fileset dir="${catalina.home}/bin">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement location="${catalina.home}/lib"/>
+    <fileset dir="${catalina.home}/lib">
+      <include name="*.jar"/>
+    </fileset-->
+
+  </path>
+
+
+
+<!-- ================ Custom Ant Task Definitions ==================== -->
+
+
+<!--
+
+  These properties define custom tasks for the Ant build tool that inter-
+  act with the "/manager" web application installed with Tomcat.  Before
+  they can be successfully utilized, you must perform the following steps:
+
+  - Copy the file "lib/catalina-ant.jar" from your Tomcat
+    installation into the "lib" directory of your Ant installation.
+
+  - Create a "build.properties" file in your application's top-level
+    source directory (or your user login home directory) that defines
+    appropriate values for the "manager.password", "manager.url", and
+    "manager.username" properties described above.
+
+  For more information about the Manager web application, and the functi-
+  onality of these tasks, please take a look at article:
+    http://localhost:8080/tomcat-docs/manager-howto.html.
+
+-->
+
+  <taskdef resource="org/apache/catalina/ant/catalina.tasks"
+           classpathref="compile.classpath"/>
+
+<!-- ================= Compilation Control Options =================== -->
+
+<!--
+
+  These properties control option settings on the Javac compiler when it
+  is invoked using the <javac> task.
+
+  compile.debug        Should compilation include the debug option?
+
+  compile.deprecation  Should compilation include the deprecation option?
+
+-->
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="false"/>
+
+
+
+<!-- ================== All Target =================================== -->
+
+<!--
+
+  The "all" target is a shortcut for running the "clean" target followed
+  by the "compile" target, to force a complete recompile.
+
+-->
+
+  <target name="all"
+   depends=
+       "delete-applications-build-directories, compile-java-source-code"
+   description="Delete application's build directories, then compile."/>
+
+<!-- ================== Delete Directory Target ====================== -->
+
+<!--
+
+  The "delete" target deletes created earlier "build" directory,
+  so that you can be sure the Ant targets can be built from scratch.
+
+-->
+
+  <target name="delete-applications-build-directories"
+   description="Delete created earlier application's build directory.">
+    <delete dir="${application.build.path}"/>
+  </target>
+
+<!-- ================= Compilation Control Options =================== -->
+
+<!--
+
+    These control option settings on the Javac compiler when it
+    is invoked using the <javac> task.
+
+    compile.debug       Should compilation include the debug option?
+    compile.deprecation Should compilation include the deprecation option?
+  -->
+
+  <property name="compile.debug"        value="true"/>
+  <property name="compile.deprecation"  value="false"/>
+
+<!-- ================== Compile Java Code Target ===================== -->
+
+<!--
+
+  The "compile-java-source-code" target transforms source files (from your
+  "source" directory) into object files in the appropriate location in the
+  build directory. This example assumes that you will be including your
+  classes in an unpacked directory hierarchy under "/WEB-INF/java/class".
+
+-->
+
+  <target name="compile-java-source-code"
+          depends="include-java-dependencies"
+          description="Compile Java source code.">
+    <property name="comp.javacode.path"
+              value="${application.build.path}/compile-java-source-code"/>
+    <!-- Compile Java class(-es) when necessary -->
+    <mkdir dir="${comp.javacode.path}"/>
+    <javac srcdir="${application.java-code.path}"
+          destdir="${comp.javacode.path}"
+            debug="${compile.debug}"
+      deprecation="${compile.deprecation}">
+        <classpath refid="compile.classpath"/>
+    </javac>
+
+    <property name="compiled.java.source.code.package.name"
+              value=
+     "${inc.javadep.path}/WEB-INF/library/${application.name}.jar"
+    />
+    <!-- Copy application resource -->
+    <jar
+      destfile="${compiled.java.source.code.package.name}"
+      basedir="${comp.javacode.path}"
+      indexMetaInf="true"/>
+
+    <!--copy todir="${application.build.path}/java/class">
+      <fileset dir="../main/java" excludes="**/*.java"/>
+    </copy-->
+
+  </target>
+
+<!-- ================= Create Distributive Target ==================== -->
+
+<!--
+
+  The "create-applications-distributive" target creates a binary distribu-
+  tive of an application according to the defined directory's structure.
+  It also prepares a Web application archive file (".war" format). It is
+  a compressed file which is required for the further steps. Note that
+  this target depends on two others:
+
+  - "compile-java-source-code" so that the entire Web application
+  (including external dependencies) will have been assembled.
+  - "generate-java-code-documentation" so that the application Javadocs
+  will have been created
+
+-->
+
+  <target name="create-applications-distributive"
+     depends="compile-java-source-code, generate-java-code-documentation"
+          description="Create binary application's distributive.">
+    <property name="application.distributive.path"
+      value="${application.build.path}/create-applications-distributive"/>
+
+    <mkdir dir="${application.distributive.path}"/>
+
+    <!-- Copy existing application documentation subdirectories -->
+    <!--mkdir dir="../../distribution/documentation"/-->
+    <!--copy todir="../../distribution/documentation">
+      <fileset dir="/source/main/documentation"/>
+    </copy-->
+
+    <property name="application.ditributive.name"
+              value="${application.name}-${application.version}.war"/>
+    <!-- Create application WAR/JAR file -->
+    <jar
+       jarfile=
+       "${application.distributive.path}/${application.ditributive.name}"
+       basedir="${inc.javadep.path}"/>
+
+    <!-- Copy additional files to ${dist.home} when necessary -->
+  </target>
+
+
+
+<!-- ==================== Install Target ============================= -->
+
+<!--
+
+  The "install" target tells the specified Tomcat installation to dynami-
+  cally install this web application and make it available for execution.
+  It does *not* cause the existence of this web application to be remembe-
+  red across Tomcat restarts; if you restart the server, you will need to
+  re-install all this web application.
+
+  If you have already installed this application, and simply want Tomcat
+  to recognize that you have updated Java classes (or the web.xml file),
+  use the "reload" target instead.
+
+  NOTE:  This target will only succeed if it is run from the same server
+  that Tomcat is running on.
+
+  NOTE:  This is the logical opposite of the "remove" target.
+
+-->
+
+  <target name="install" depends="compile-java-source-code"
+   description="Install application to the servlet's container">
+
+    <deploy url="${manager.url}"
+       username="${manager.username}"
+       password="${manager.password}"
+           path="${app.path}"
+       localWar="file://${build.home}"/>
+
+  </target>
+
+
+<!-- ============== Generate Java Documentation Target =============== -->
+
+<!--
+
+  The "javadoc" target generates Java documentation for the Java classes
+  included in your application. Usually, this is only required when pre-
+  paring a distribution release, but is available as a separate target in
+  case the developer wants to create Javadocs independently.
+
+-->
+
+  <target name="generate-java-code-documentation"
+          depends="compile-java-source-code"
+          description="Generate Java source code documentation.">
+    <property name="gen.javadoc.path"
+   value="${application.build.path}/generate-java-code-documentation"/>
+    <mkdir dir="${gen.javadoc.path}/api"/>
+    <javadoc sourcepath="${application.java-code.path}"
+                destdir="${gen.javadoc.path}/api"
+           packagenames="*">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+
+
+<!-- ======================= List Target ============================= -->
+
+<!--
+
+  The "list" target asks the specified Tomcat installation to list the
+  currently running web applications, either loaded at startup time or
+  installed dynamically.  It is useful to determine whether or not the
+  application you are currently developing has been installed.
+
+-->
+
+  <target name="list"
+   description="List installed applications on servlet container.">
+
+    <list    url="${manager.url}"
+        username="${manager.username}"
+        password="${manager.password}"/>
+
+  </target>
+
+
+<!-- =================Include Java Dependencies Target================ -->
+
+<!--
+
+  The "include-java-dependencies" target is applied, when it is necessary
+  to include external resources into the Web application(external Java ar-
+  chive file dependencies).
+
+-->
+
+  <target name="include-java-dependencies">
+
+    <!-- Create build directories, when it is necessary -->
+    <!--mkdir  dir="../../build"/>
+    <mkdir  dir="../../build/WEB-INF"/>
+    <mkdir  dir="../../build/WEB-INF/java/class"/-->
+    <property
+            name="inc.javadep.path"
+            value="${application.build.path}/include-java-dependencies"/>
+    <mkdir dir="${inc.javadep.path}/WEB-INF/library"/>
+
+    <!-- Copy static content of this Web application -->
+    <copy todir="${inc.javadep.path}">
+      <fileset dir="${basedir}/source/web-application"/>
+    </copy>
+
+    <mkdir dir="${inc.javadep.path}/WEB-INF/library"/>
+    <!-- Copy external dependencies, when it is necessary -->
+    <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
+    <copy todir="${inc.javadep.path}/WEB-INF/library"
+     file="${application.java-library.path}/javax.servlet-api-4.0.1.jar"/>
+<!--
+    <copy todir="${build.home}/WEB-INF/library" file="${foo.jar}"/>
+-->
+
+<!-- Copy static files from external dependencies when it is necessary -->
+<!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
+
+  </target>
+
+
+<!-- ==================== Reload Target ============================== -->
+
+<!--
+
+  The "reload" signals the specified application Tomcat to shut itself
+  down and reload. This can be useful when the web application context is
+  not reloadable and you have updated classes or property files in the
+  /WEB-INF/classes directory or when you have added or updated jar files
+  in the /WEB-INF/library directory.
+
+  NOTE: The /WEB-INF/web.xml web application configuration file is not re-
+  loaded automatically. If you have made changes to your web.xml file you
+  must stop then start the web application.
+
+-->
+
+  <target name="reload" depends="compile-java-source-code"
+   description="Reload application on servlet container">
+
+    <reload url="${manager.url}"
+       username="${manager.username}"
+       password="${manager.password}"
+           path="${app.path}"/>
+
+  </target>
+
+
+<!-- ==================== Remove Target ============================== -->
+
+<!--
+
+  The "remove" target provides settings for Web-application server, which
+  allows administrator to undeploy application, in other words, to termin-
+  ate service.
+
+  NOTE:  This is the logical opposite of the "install" target.
+
+-->
+
+  <target name="remove"
+   description="Remove application on servlet container">
+
+    <undeploy url="${manager.url}"
+         username="${manager.username}"
+         password="${manager.password}"
+             path="${app.path}"/>
+
+  </target>
+</project>

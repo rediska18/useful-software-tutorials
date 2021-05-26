@@ -1,0 +1,104 @@
+Файл недоопрацьований. Детальний опис ліцензії ще треба оновити.
+// Інформацію надано з відкритих джерел, що вказані у файлі "applicati-
+on.reference"
+
+З точки зору об'єкта (програмного забезпечення)
+Варто звернути увагу на те, що певні виробники програмного забезпечення,
+як-от: IBM, іноді супроводжують своє програмне забезпечення ліцензією, де
+чітко вказують, де саме це програмне забезпечення може бути застосоване
+(банківська газузь, автомобілебудування тощо).
+
+З точки зору суб'єкта (програміста)
+Призначення в нашому випадку може бути теоретично пов'язане з видом госпо-
+дарської діяльності КВЕД. Яким чином розшифровується КВЕД? Ймовірно "Код
+внутрішньо економіної діяльності" або "код видів економічної діяльності",
+або "класифікація видів економічної діяльності"?
+Зважаючи на тещо це словник: ключем якого слугує код, а в описі вказано
+значення, то ймовірно було б краще застосовувати слово "код". Але як це
+реалізовано з точки зору програмного забезпечння, і яке дійсно трактування
+важко сказати.
+В нагоді б стала модель розробки програмного забезпечення з використанням
+DDD (Domain-Driven Design). Вона ймовірно була покликана вирішувати схожі
+запитання.
+Є книга авторства Eric Evans під назвою "Domain-Driven Design: Tackling
+Complexity in the Heart of Software" (First Edition). Нажаль переклад
+українською мовою недоступний.
+Ймовірно вона не схвалена Міністерством освіти і науки України для вивчен-
+ня у вузах. Всі новинки (книги) приходять не завжди своєчасно.
+ 
+Тож з точки зору суб'єкта (програміста), який застосовує це програмне за-
+безпечення відповіднно до свого КВЕД.
+- 62.01 Комп'ютерне програмування.
+- 63.11 Оброблення даних, розміщення інформації на веб-вузлах і пов'язана
+з ними діяльність. (відповідно до особистого кабінету платника податків)
+(Якщо не помиляюсь колишня назва містила слово "замовника", тобто "Оброб-
+лення даних, розміщення інформації на веб-вузлах замовника і пов'язана з
+ними діяльність).
+В той же час особистий документ (витяг з реєструплатниківподатків) ДПІ у
+ПОДІЛЬСЬКОМУ РАЙОНІ (ПОДІЛЬСЬКИЙ РАЙОН м.КИЄВА) виданий на руки з мокрою
+печаткою містить дещо іншу інформацію.
+- а також можлива наявність інших кодів. Яким чином було внесено зміни -
+невідомо. Тож треба обережно іноді перевіряти документи.
+
+ПРИМІТКА 1: на даний момент (15 травня 2021 року) ДПІ у ПОДІЛЬСЬКОМУ
+РАЙОНІ перебуває у Святошинському районі з причин ремонту.
+
+Наданий вище приклад стосується лише податкової. Медична, автомобілебу-
+дування та інші галузі містять свої терміни, які іноді важко трактувати
+відповідно до DDD. І яким чином програмне забезпечення реалізоване про-
+грамістами, то вже треба перевіряти.
+ 
+Також ймовірно, що для роботи з іноземними компаніями необхідно також пе-
+ревіряти суб'єкт КЗЕК - "код зовнішньо економічної діяльності" чи схожу
+назву. В нагоді б тут став якийсь друкований журнал з тлумаченнями чи пе-
+ріодичними оновленнями для кожної галузі. Звісно це було б цікаво тільки
+тим спеціалістами, які виконують свої безпосередні обов'язки в тій чи
+іншій галузі.
+
+ПРИМІТКА 2: Вищезазначені формулювання не можна вважати повністю вірними.
+Це лише суб'єктивна думка. Інформацію надано лише для ознайомлення.
+
+1) Apache Tomcat® Software
+Copyright© 2021 Ярослав Трубін
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+2) web.xml descriptor
+   Copyright© 2000-2007 Sun Microsystems, Inc. All rights reserved.
+
+   The contents of this file are subject to the terms of either the GNU
+   General Public License Version 2 only ("GPL") or the Common Deve-
+   lopment and Distribution License("CDDL") (collectively, the
+   "License").  You may not use this file except in compliance with the
+   License. You can obtain a copy of the License at:
+   https://glassfish.dev.java.net/public/CDDL+GPL.html
+   or glassfish/bootstrap/legal/LICENSE.txt.  See the License for the
+   specific language governing permissions and limitations under the
+   License.
+
+3) Apache Ant's file named "build.xml".
+
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.

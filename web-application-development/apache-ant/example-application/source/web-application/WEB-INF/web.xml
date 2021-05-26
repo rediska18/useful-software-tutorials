@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+<web-app>
+
+    <!-- Generic description of your web application -->
+
+    <display-name>Example application</display-name>
+    <description>
+      This is version 1.0 of an application that performs
+      an introduction to development based on servlets and
+      JSP pages.  It was written by Ярослав Трубін
+      (yaroslav_trubin@ukr.net), who should be contacted for
+      more information.
+    </description>
+
+    <!--distributable></distributable-->
+
+    <context-param>
+      <param-name>webmaster</param-name>
+      <param-value>myaddress@mycompany.com</param-value>
+      <description>
+        The EMAIL address of the administrator to whom questions
+        and comments about this application should be addressed.
+      </description>
+    </context-param>
+
+    <!--filter></filter-->
+    <!--filter-mapping></filter-mapping-->
+    <!--listener></listener-->
+
+    <servlet>
+      <servlet-name>Controller</servlet-name>
+      <description>
+        This servlet serves the "controller" role in the MVC architecture
+        applied in this application.  It is mapped to the ".do"
+        filename extension with a servlet-mapping element, and all form
+        submits in the app will be submitted to a request URI like
+        "saveCustomer.do", which will therefore be mapped to this servlet.
+
+        The initialization parameter names for this servlet are the
+        "servlet path" that will be received by this servlet (after the
+        filename extension is removed).  The corresponding value is the
+        name of the action class that will be used to process this request.
+      </description>
+      <servlet-class>ua.org.example.Controller</servlet-class>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>Controller</servlet-name>
+      <url-pattern>/api/v1</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>    <!-- 30 minutes -->
+    </session-config>
+
+    <mime-mapping>
+        <extension>html</extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
+
+    <welcome-file-list>
+        <welcome-file>/WEB-INF/index.html</welcome-file>
+    </welcome-file-list>
+
+    <!--error-page></error-page-->
+    <!--taglib></taglib-->
+    <!--resource-env-ref></resource-env-ref-->
+    <!--resource-ref></resource-ref-->
+    <!--security-constraints></security-constraints-->
+    <!--login-config></login-config-->
+    <!--security-role></security-role-->
+    <!--env-entry></env-entry-->
+    <!--ejb-ref></ejb-ref-->
+    <!--ejb-local-ref></ejb-local-ref-->
+
+</web-app>
