@@ -1,5 +1,8 @@
 package ua.org.example;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by @AuthorName    Ярослав.
@@ -18,14 +22,16 @@ import java.io.Serializable;
  * Current @ProjectName      "example-application".
  */
 @WebServlet(Controller.APPLICATION_PATH)
-public class Controller extends HttpServlet implements Serializable   {
-    public static final long serialVersionUID = 42L;
+public class Controller extends HttpServlet implements Serializable {
 
     public static final String APPLICATION_PATH = "/api/v1";
+    public static final long serialVersionUID = 1234567890L;
+    private static final Logger LOGGER =
+            LogManager.getLogger(Controller.class);
 
     @Override
     public void init() throws ServletException {
-        System.out.println("Web Application Servlet Controller was " +
+        LOGGER.info("Web Application Servlet Controller was " +
                 "successfully initialised.");
     }
 
@@ -38,13 +44,13 @@ public class Controller extends HttpServlet implements Serializable   {
 
     @Override
     public void destroy() {
-        System.out.println("Web Application Servlet Controller was " +
+        LOGGER.info("Web Application Servlet Controller was " +
                 "successfully destroyed.");
     }
 
-
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        LOGGER.info("doGet request");
         //httpServletResponse.setContentType(new MimeType());
         httpServletResponse.setContentType("text/html");
         httpServletResponse.setCharacterEncoding("UTF-8");

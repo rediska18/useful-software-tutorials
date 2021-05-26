@@ -170,7 +170,10 @@
 -->
     <pathelement
 location="${application.java-library.path}/javax.servlet-api-4.0.1.jar"/>
-
+    <pathelement
+location="${application.java-library.path}/log4j-api-2.12.1.jar"/>
+    <pathelement
+location="${application.java-library.path}/log4j-core-2.12.1.jar"/>
     <!-- Include all elements that Tomcat exposes to applications -->
     <!--fileset dir="${catalina.home}/bin">
       <include name="*.jar"/>
