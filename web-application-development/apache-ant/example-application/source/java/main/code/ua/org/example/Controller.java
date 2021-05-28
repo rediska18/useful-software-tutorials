@@ -21,13 +21,12 @@ import java.util.Arrays;
  * Created on @Date          29.04.2021.
  * Current @ProjectName      "example-application".
  */
-@WebServlet(Controller.APPLICATION_PATH)
+@WebServlet(Controller.SERVLET_PATH)
 public class Controller extends HttpServlet implements Serializable {
 
-    public static final String APPLICATION_PATH = "/api/v1";
+    public static final String SERVLET_PATH = "/servlet";
     public static final long serialVersionUID = 1234567890L;
-    private static final Logger LOGGER =
-            LogManager.getLogger(Controller.class);
+    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     @Override
     public void init() throws ServletException {
