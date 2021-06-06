@@ -1,7 +1,7 @@
 ### IntelliJ IDEA ###
 # web-application-development/apache-ant #
 web-application-development/apache-ant/example-application/.idea
-web-application-development/apache-ant/example-application/application-build
+web-application-development/apache-ant/example-application/programs-package
 web-application-development/apache-ant/example-application/source/java/main/resource/library
 web-application-development/apache-ant/example-application/example-application.iml
 web-application-development/apache-ant/example-application/out
