@@ -1,1 +1,1 @@
-# usefull-software-tutorials
+# useful-software-tutorials
